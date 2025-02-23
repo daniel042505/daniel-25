@@ -5,8 +5,11 @@
  */
 package paparon;
 
+import config.dbConnect;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
 
 /**
@@ -38,12 +41,12 @@ public class Register extends javax.swing.JFrame {
     private void initComponents() {
 
         jTextField4 = new javax.swing.JTextField();
+        jMenuItem1 = new javax.swing.JMenuItem();
         use = new javax.swing.JTextField();
         fin = new javax.swing.JTextField();
         lan = new javax.swing.JTextField();
         can = new javax.swing.JTextField();
         em = new javax.swing.JTextField();
-        oc1 = new javax.swing.JTextField();
         passwe = new javax.swing.JPasswordField();
         ps = new javax.swing.JLabel();
         un = new javax.swing.JLabel();
@@ -56,6 +59,7 @@ public class Register extends javax.swing.JFrame {
         Register = new javax.swing.JButton();
         Clear = new javax.swing.JButton();
         Back = new javax.swing.JButton();
+        occ = new javax.swing.JComboBox<>();
         jLabel1 = new javax.swing.JLabel();
 
         jTextField4.addActionListener(new java.awt.event.ActionListener() {
@@ -63,6 +67,8 @@ public class Register extends javax.swing.JFrame {
                 jTextField4ActionPerformed(evt);
             }
         });
+
+        jMenuItem1.setText("jMenuItem1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -102,13 +108,6 @@ public class Register extends javax.swing.JFrame {
             }
         });
         getContentPane().add(em, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 210, 180, 30));
-
-        oc1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                oc1ActionPerformed(evt);
-            }
-        });
-        getContentPane().add(oc1, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 170, 180, 30));
 
         passwe.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -192,11 +191,14 @@ public class Register extends javax.swing.JFrame {
         });
         getContentPane().add(Back, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 330, 90, 30));
 
+        occ.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select Occupation", "Manager", "Cashier"}));
+        getContentPane().add(occ, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 170, 180, 30));
+
         jLabel1.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(0, 255, 255));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/nm.jpg"))); // NOI18N
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, -60, 620, 520));
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, -80, 620, 520));
 
         setBounds(0, 0, 637, 419);
     }// </editor-fold>//GEN-END:initComponents
@@ -231,30 +233,27 @@ public class Register extends javax.swing.JFrame {
 
     private void RegisterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RegisterActionPerformed
         // TODO add your handling code here:
+        
+        
+        
          
 
     
 
  
-    if (fin.getText().isEmpty() || lan.getText().isEmpty() ||  can.getText().isEmpty() || oc1.getText().isEmpty() ||  em.getText().isEmpty() ||  use.getText().isEmpty() ||  passwe.getPassword().length == 0 ) {
+    if (fin.getText().isEmpty() || lan.getText().isEmpty() ||  can.getText().isEmpty() ||  em.getText().isEmpty() ||  use.getText().isEmpty() ||  passwe.getPassword().length == 0 ) {
         JOptionPane.showMessageDialog(null, "All Fields Are Required");
-        fin.setText("");
-        lan.setText("");
-        can.setText("");
-        oc1.setText("");
-        em.setText("");
-        use.setText("");
-        passwe.setText("");
+     
 
 
     } 
-    else if (firn.getText().isEmpty()){
+    else if (fin.getText().isEmpty()){
     JOptionPane.showMessageDialog(null, "First Name is required");
-    firn.setText("");
+    fin.setText("");
     }
-     else if (lasn.getText().isEmpty()){
+     else if (lan.getText().isEmpty()){
     JOptionPane.showMessageDialog(null, "First Name is required");
-    lasn.setText("");
+    lan.setText("");
      }
      else if (can.getText().isEmpty()) {
     JOptionPane.showMessageDialog(null, "Contact Number is required");
@@ -267,33 +266,60 @@ public class Register extends javax.swing.JFrame {
     }
 
     
-      else if (emai.getText().isEmpty()) {
-    JOptionPane.showMessageDialog(null, "Occupation is required");
-    emai.setText(""); 
-} 
-     else if (em.getText().isEmpty()) {
+    else if (em.getText().isEmpty()) {
     JOptionPane.showMessageDialog(null, "Email is required");
     em.setText(""); 
-} 
-   
+      
+     
+}
+      else {
+            String email = em.getText();
+            
+           
+            String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
+            Pattern pattern = Pattern.compile(emailRegex);
+            Matcher matcher = pattern.matcher(email);
+
+            if (!matcher.matches()) {
+                JOptionPane.showMessageDialog(null, "Please enter a valid email with @yahoo.com or @gmail.com");
+                em.setText("");
+            }
+      
+              
    else if (use.getText().isEmpty()) {
     JOptionPane.showMessageDialog(null, "Username is required");
     use.setText(""); 
 } 
-else if (passwe.getText().isEmpty()) {
+else if (passwe.getPassword().length == 0) {
     
     JOptionPane.showMessageDialog(null, "Password is required");
     passwe.setText(""); 
 } 
+else if (passwe.getPassword().length < 8) {
+    JOptionPane.showMessageDialog(null, "Password should have at least 8 characters");
+    passwe.setText("");
+} 
 
+
+   
 
 else {
+     dbConnect dbc = new dbConnect();
+        if (dbc.insertData("INSERT INTO tbl_user(u_fname, u_lname, u_occ, u_cn, u_em, u_user, u_pass, u_status)"
+               + "VALUES('"+fin.getText()+"' , '"+lan.getText()+"' , '"+can.getText()+"' , '"+occ.getSelectedItem()+"' , '"
+                       +em.getText()+"' , '"+use.getText()+"' , '"+passwe.getText()+"','Pending')") == 0){
+            
+             JOptionPane.showMessageDialog(null, "Registered Successfully");
+        }
+            
+           
     
-    new FoodMenu().setVisible(true);
+    new LoginPage().setVisible(true);
     this.setVisible(false);
     this.dispose();
 }
     }//GEN-LAST:event_RegisterActionPerformed
+     }
     }
     private void ClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ClearActionPerformed
         // TODO add your handling code here:
@@ -303,11 +329,8 @@ else {
         // TODO add your handling code here:
         new LoginPage().setVisible(true);
         this.setVisible(false);
+        this.dispose();
     }//GEN-LAST:event_BackActionPerformed
-
-    private void oc1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_oc1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_oc1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -356,10 +379,11 @@ else {
     private javax.swing.JLabel firn;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JTextField jTextField4;
     private javax.swing.JTextField lan;
     private javax.swing.JLabel lasn;
-    private javax.swing.JTextField oc1;
+    private javax.swing.JComboBox<String> occ;
     private javax.swing.JLabel occ1;
     private javax.swing.JPasswordField passwe;
     private javax.swing.JLabel ps;

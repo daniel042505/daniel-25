@@ -6,7 +6,7 @@
 package paparon;
 
 import javax.swing.JOptionPane;
-import java.awt.Color;
+
 
 
 
@@ -23,10 +23,10 @@ public class LoginPage extends javax.swing.JFrame {
         initComponents();
         this.setResizable(false);
         
-        
-        
     
     }
+    
+    
     
     
     
@@ -48,6 +48,7 @@ public class LoginPage extends javax.swing.JFrame {
         register = new javax.swing.JLabel();
         Clear = new javax.swing.JButton();
         Login1 = new javax.swing.JButton();
+        shw = new javax.swing.JCheckBox();
         jLabel3 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
 
@@ -120,6 +121,13 @@ public class LoginPage extends javax.swing.JFrame {
         });
         jPanel1.add(Login1, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 210, 110, 40));
 
+        shw.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                shwActionPerformed(evt);
+            }
+        });
+        jPanel1.add(shw, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 170, -1, -1));
+
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 90, 320, 290));
 
         jLabel3.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
@@ -172,8 +180,7 @@ public class LoginPage extends javax.swing.JFrame {
  
    if (user.getText().isEmpty() && pass.getPassword().length == 0) {
     JOptionPane.showMessageDialog(null, "All Fields Are Required");
-    user.setText("");
-    pass.setText("");
+  
 } 
 else if (user.getText().isEmpty()) {
     JOptionPane.showMessageDialog(null, "Username is required");
@@ -193,6 +200,17 @@ else if (pass.getPassword().length < 8) {
         this.dispose();
     }
     }//GEN-LAST:event_Login1ActionPerformed
+
+    private void shwActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_shwActionPerformed
+        // TODO add your handling code here:
+        if (shw.isSelected()) {
+       
+        pass.setEchoChar((char) 0);
+    } else {
+        
+        pass.setEchoChar('*');
+    }
+    }//GEN-LAST:event_shwActionPerformed
     
       
       
@@ -242,6 +260,7 @@ else if (pass.getPassword().length < 8) {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPasswordField pass;
     private javax.swing.JLabel register;
+    private javax.swing.JCheckBox shw;
     private javax.swing.JTextField user;
     // End of variables declaration//GEN-END:variables
 }
