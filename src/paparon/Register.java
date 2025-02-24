@@ -60,7 +60,7 @@ public class Register extends javax.swing.JFrame {
         Clear = new javax.swing.JButton();
         Back = new javax.swing.JButton();
         occ = new javax.swing.JComboBox<>();
-        jLabel1 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
 
         jTextField4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -194,11 +194,11 @@ public class Register extends javax.swing.JFrame {
         occ.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select Occupation", "Manager", "Cashier"}));
         getContentPane().add(occ, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 170, 180, 30));
 
-        jLabel1.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(0, 255, 255));
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/nm.jpg"))); // NOI18N
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, -80, 620, 520));
+        jLabel3.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(0, 255, 255));
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/nm.jpg"))); // NOI18N
+        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, -80, 620, 520));
 
         setBounds(0, 0, 637, 419);
     }// </editor-fold>//GEN-END:initComponents
@@ -305,12 +305,28 @@ else if (passwe.getPassword().length < 8) {
 
 else {
      dbConnect dbc = new dbConnect();
-        if (dbc.insertData("INSERT INTO tbl_user(u_fname, u_lname, u_occ, u_cn, u_em, u_user, u_pass, u_status)"
-               + "VALUES('"+fin.getText()+"' , '"+lan.getText()+"' , '"+can.getText()+"' , '"+occ.getSelectedItem()+"' , '"
-                       +em.getText()+"' , '"+use.getText()+"' , '"+passwe.getText()+"','Pending')") == 0){
-            
-             JOptionPane.showMessageDialog(null, "Registered Successfully");
-        }
+       String checkUsernameQuery = "SELECT COUNT(*) FROM tbl_user WHERE u_user = '" + use.getText() + "'";
+                int usernameCount = dbc.executeQueryForCount(checkUsernameQuery);
+                if (usernameCount > 0) {
+                    JOptionPane.showMessageDialog(null, "Username is already taken");
+                    return;
+                }
+
+                
+                String checkEmailQuery = "SELECT COUNT(*) FROM tbl_user WHERE u_em = '" + em.getText() + "'";
+                int emailCount = dbc.executeQueryForCount(checkEmailQuery);
+                if (emailCount > 0) {
+                    JOptionPane.showMessageDialog(null, "Email is already registered");
+                    return; 
+                }
+
+              
+                String insertQuery = "INSERT INTO tbl_user(u_fname, u_lname, u_occ, u_cn, u_em, u_user, u_pass, u_status)"
+                        + "VALUES('"+fin.getText()+"', '"+lan.getText()+"', '"+occ.getSelectedItem()+"', '"+can.getText()+"', '"+em.getText()+"', '"+use.getText()+"', '"+passwe.getText()+"', 'Pending')";
+                
+                if (dbc.insertData(insertQuery) == 0) {
+                    JOptionPane.showMessageDialog(null, "Registered Successfully");
+                }
             
            
     
@@ -323,6 +339,14 @@ else {
     }
     private void ClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ClearActionPerformed
         // TODO add your handling code here:
+        
+    use.setText("");  
+    fin.setText(""); 
+    lan.setText("");  
+    can.setText("");  
+    em.setText("");  
+    passwe.setText(""); 
+
     }//GEN-LAST:event_ClearActionPerformed
 
     private void BackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BackActionPerformed
@@ -377,8 +401,8 @@ else {
     private javax.swing.JLabel emai;
     private javax.swing.JTextField fin;
     private javax.swing.JLabel firn;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JTextField jTextField4;
     private javax.swing.JTextField lan;

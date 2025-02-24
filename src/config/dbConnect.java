@@ -44,6 +44,85 @@ public class dbConnect {
             return rst;
         }
     
-                                
-    
+                    
+         // Function to execute a query and get the count result (for checking username/email existence)
+    public int executeQueryForCount(String query) {
+        int count = 0;
+        try (Statement stmt = connect.createStatement();
+             ResultSet rs = stmt.executeQuery(query)) {
+            if (rs.next()) {
+                count = rs.getInt(1); // Get the count from the first column of the result set
+            }
+        } catch (SQLException e) {
+            System.out.println("Error in executeQueryForCount: " + e.getMessage());
+        }
+        return count;
+        
+        
+    }
+    public boolean checkLogin(String username, String password) {
+    boolean isValidUser = false;
+    try {
+        // Create the SQL query
+        String sql = "SELECT * FROM tbl_user WHERE u_user = ? AND u_pass = ?";
+
+        // Prepare the statement
+        PreparedStatement pst = connect.prepareStatement(sql);
+        pst.setString(1, username);
+        pst.setString(2, password);
+
+        ResultSet rs = pst.executeQuery();
+
+        if (rs.next()) {
+            // Check if the status is "active"
+            String status = rs.getString("u_status");
+
+            if ("active".equals(status)) {
+                isValidUser = true;
+            } else if ("pending".equals(status)) {
+                isValidUser = false;
+            }
+        }
+        rs.close();
+        pst.close();
+
+    } catch (SQLException ex) {
+        System.out.println("Error during login check: " + ex.getMessage());
+    }
+
+    return isValidUser;
 }
+
+    // New function to retrieve the occupation of the user (manager/cashier)
+    public String getUserOccupation(String username) {
+        String occupation = null;
+        try {
+            // Create the SQL query to fetch the occupation based on username
+            String sql = "SELECT u_occ FROM tbl_user WHERE u_user = ?";
+
+            // Prepare the statement
+            PreparedStatement pst = connect.prepareStatement(sql);
+            pst.setString(1, username);
+
+            // Execute the query
+            ResultSet rs = pst.executeQuery();
+
+            // Check if the username exists and get the occupation
+            if (rs.next()) {
+                occupation = rs.getString("u_occ"); // Assuming the column is named "u_occupation"
+            }
+
+            // Close the resources
+            rs.close();
+            pst.close();
+
+        } catch (SQLException ex) {
+            System.out.println("Error during fetching occupation: " + ex.getMessage());
+        }
+
+        return occupation; // Return the occupation value (manager/cashier)
+    }
+
+}
+    
+

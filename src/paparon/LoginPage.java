@@ -5,7 +5,10 @@
  */
 package paparon;
 
+import cashier.cashierDashBoard;
+import config.dbConnect;
 import javax.swing.JOptionPane;
+import manager.managerDashBoard;
 
 
 
@@ -175,6 +178,10 @@ public class LoginPage extends javax.swing.JFrame {
 
     private void Login1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Login1ActionPerformed
         // TODO add your handling code here:
+        
+         String username = user.getText();
+    String password = new String(pass.getPassword()); // Convert the password from char[] to String
+
        
 
  
@@ -195,10 +202,35 @@ else if (pass.getPassword().length < 8) {
     pass.setText("");
 } 
     else {  
-        new FoodMenu().setVisible(true);
-        this.setVisible(false);
-        this.dispose();
-    }
+    
+    dbConnect db = new dbConnect();
+        boolean isValidUser = db.checkLogin(username, password); 
+
+        if (isValidUser) {
+            // Assuming `checkLogin` is just checking for user validity, 
+            // now fetch the occupation
+            String occupation = db.getUserOccupation(username);  // Method to get occupation from the database
+            
+            if ("Manager".equalsIgnoreCase(occupation)) {
+                new managerDashBoard().setVisible(true);  // Redirect to Manager Dashboard
+            } else if ("Cashier".equalsIgnoreCase(occupation)) {
+                new cashierDashBoard().setVisible(true);  // Redirect to Cashier Dashboard
+            } else {
+                JOptionPane.showMessageDialog(null, "Invalid role");
+            }
+            
+            this.setVisible(false);
+            this.dispose();
+        } else {
+            JOptionPane.showMessageDialog(null, "Invalid username or password");
+            user.setText(""); 
+            pass.setText("");
+        }
+    
+ 
+    
+        
+}
     }//GEN-LAST:event_Login1ActionPerformed
 
     private void shwActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_shwActionPerformed

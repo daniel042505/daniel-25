@@ -36,7 +36,7 @@ public class managerDashBoard extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
+        user = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -77,12 +77,17 @@ public class managerDashBoard extends javax.swing.JFrame {
         jPanel5.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
         jPanel5.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel2.setBackground(new java.awt.Color(102, 0, 102));
-        jLabel2.setDisplayedMnemonic('U');
-        jLabel2.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setText("USERS");
-        jPanel5.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 120, 26));
+        user.setBackground(new java.awt.Color(102, 0, 102));
+        user.setDisplayedMnemonic('U');
+        user.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        user.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        user.setText("USERS");
+        user.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                userMouseClicked(evt);
+            }
+        });
+        jPanel5.add(user, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 120, 26));
 
         jPanel1.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 180, 120, 30));
 
@@ -90,6 +95,13 @@ public class managerDashBoard extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void userMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_userMouseClicked
+        // TODO add your handling code here:
+        new ManageUsers().setVisible(true);
+        this.setVisible(false);
+        this.dispose();
+    }//GEN-LAST:event_userMouseClicked
 
     /**
      * @param args the command line arguments
@@ -128,11 +140,11 @@ public class managerDashBoard extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
+    private javax.swing.JLabel user;
     // End of variables declaration//GEN-END:variables
 }
