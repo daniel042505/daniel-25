@@ -37,7 +37,7 @@ public class cashierDashBoard extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(51, 255, 255));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("WELCOME TO USER DASHBOARD");
+        jLabel1.setText("WELCOME TO CASHIER DASHBOARD");
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 14, 600, 40));
 
         jLabel3.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
